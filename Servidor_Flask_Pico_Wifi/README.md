@@ -11,7 +11,7 @@ git clone https://github.com/davissontiago/BitDogLab.git
 Depois, navegue até a pasta: `Servidor_Flask_Pico_Wifi`
 e abra no VsCode.
 
-![pasta](/images/pasta.png)
+![pasta](images/pasta.png)
 ---
 
 ## 2. Instalar o Python
