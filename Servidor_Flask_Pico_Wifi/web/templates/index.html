@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Status Box</title>
+  <style>
+    #status-box {
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      color: white;
+      font-size: 2em;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 100px auto;
+      border-radius: 20px;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="status-box">OFF</div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io();
+
+    const box = document.getElementById('status-box');
+    let isOn = false;
+
+    socket.on('connect', () => {
+      console.log('Conectado ao servidor via Socket.IO');
+    });
+
+    socket.on('command', (data) => {
+      if (data.action === 'click') {
+        if (!isOn) {  // Se o estado for OFF, muda para ON
+          box.style.backgroundColor = 'green';
+          box.textContent = 'ON';
+          isOn = true;
+        }
+      } else if (data.action === 'solto') {
+        if (isOn) {  // Se o botão foi solto, volta para OFF
+          box.style.backgroundColor = 'red';
+          box.textContent = 'OFF';
+          isOn = false;
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
