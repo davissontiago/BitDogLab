@@ -11,7 +11,7 @@
 #include "example_http_client_util.h"
 #include "hardware/adc.h"
 #include "hardware/pwm.h"
-
+//Antonio esteve aqui
 // Configurações de rede
 #define HOST "192.168.XX.XXX"
 #define PORT 5000
