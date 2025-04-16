@@ -128,10 +128,12 @@ void ler_eixos_joystick(uint16_t *x, uint16_t *y) {
 }
 
 void calibrar_joystick(uint16_t *min_x, uint16_t *max_x, uint16_t *min_y, uint16_t *max_y) {
-    printf("Calibrando joystick... Mova o eixo em todas as direções\n");
+    sleep_ms(2000); // Tempo para ler a mensagem no serial monitor
+
+    printf("Calibrando joystick... Mova o eixo em todas as direções durante 4 segundos\n");
     
     uint32_t inicio = to_ms_since_boot(get_absolute_time());
-    while (to_ms_since_boot(get_absolute_time()) - inicio < 8000) {
+    while (to_ms_since_boot(get_absolute_time()) - inicio < 4000) {
         uint16_t x, y;
         ler_eixos_joystick(&x, &y);
         
@@ -146,6 +148,8 @@ void calibrar_joystick(uint16_t *min_x, uint16_t *max_x, uint16_t *min_y, uint16
     printf("Calibração finalizada:\n");
     printf("X: min=%d, max=%d\n", *min_x, *max_x);
     printf("Y: min=%d, max=%d\n", *min_y, *max_y);
+
+    sleep_ms(2000); // Tempo para ler a calibração
 }
 
 int conectar_wifi() {
@@ -230,6 +234,11 @@ int main() {
     configurar_botoes();
     inicializar_pwm();
 
+    // Calibração do joystick
+    uint16_t min_x = 4095, max_x = 0;
+    uint16_t min_y = 4095, max_y = 0;
+    calibrar_joystick(&min_x, &max_x, &min_y, &max_y);
+
     // Inicialização Wi-Fi
     if (cyw43_arch_init()) {
         printf("Erro ao inicializar Wi-Fi\n");
@@ -240,11 +249,6 @@ int main() {
     if (conectar_wifi() != 0) {
         return 1;
     }
-
-    // Calibração do joystick
-    uint16_t min_x = 4095, max_x = 0;
-    uint16_t min_y = 4095, max_y = 0;
-    calibrar_joystick(&min_x, &max_x, &min_y, &max_y);
 
     // Loop principal
     char url[128];
