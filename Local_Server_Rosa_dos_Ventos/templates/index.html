@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pontos e Direções</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .compass {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .button-indicator {
+            width: 80px;
+            height: 80px;
+            background: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        #button-a-indicator {
+            order: 1; /* Posiciona à esquerda */
+        }
+
+        #button-b-indicator {
+            order: 3; /* Posiciona à direita */
+        }
+
+        .compass {
+            order: 2; /* Posiciona no centro */
+        }
+
+        .compass-center {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .cardinal {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border-radius: 8px;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s;
+            z-index: 5;
+        }
+
+        .ordinal {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #8BC34A;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border-radius: 6px;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s;
+            z-index: 4;
+        }
+
+        .north { top: 10%; left: 50%; }
+        .south { top: 90%; left: 50%; }
+        .east { top: 50%; left: 90%; }
+        .west { top: 50%; left: 10%; }
+        .northeast { top: 25%; left: 75%; }
+        .northwest { top: 25%; left: 25%; }
+        .southeast { top: 75%; left: 75%; }
+        .southwest { top: 75%; left: 25%; }
+
+        .cross-line {
+            position: absolute;
+            background: #ddd;
+        }
+        .cross-line.horizontal {
+            width: 80%;
+            height: 2px;
+            top: 50%;
+            left: 10%;
+        }
+        .cross-line.vertical {
+            width: 2px;
+            height: 80%;
+            left: 50%;
+            top: 10%;
+        }
+        .cross-line.diagonal-1 {
+            width: 2px;
+            height: 80%;
+            left: 50%;
+            top: 10%;
+            transform: translateX(-50%) rotate(45deg);
+        }
+        .cross-line.diagonal-2 {
+            width: 2px;
+            height: 80%;
+            left: 50%;
+            top: 10%;
+            transform: translateX(-50%) rotate(-45deg);
+        }
+
+        .cardinal.active, .ordinal.active {
+            background: #FF5722;
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 15px rgba(255,87,34,0.7);
+            z-index: 20;
+        }
+
+        .button-indicator.active {
+            background: #FF5722;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255,87,34,0.7);
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pontos e Direções</h1>
+    
+    <div class="container">
+        <div class="button-indicator" id="button-a-indicator">Botão A</div>
+        
+        <div class="compass">
+            <div class="cross-line horizontal"></div>
+            <div class="cross-line vertical"></div>
+            <div class="cross-line diagonal-1"></div>
+            <div class="cross-line diagonal-2"></div>
+            
+            <div class="compass-center"></div>
+            
+            <div class="cardinal north" id="north">N</div>
+            <div class="cardinal south" id="south">S</div>
+            <div class="cardinal east" id="east">L</div>
+            <div class="cardinal west" id="west">O</div>
+            
+            <div class="ordinal northeast" id="northeast">NE</div>
+            <div class="ordinal northwest" id="northwest">NO</div>
+            <div class="ordinal southeast" id="southeast">SE</div>
+            <div class="ordinal southwest" id="southwest">SO</div>
+        </div>
+        
+        <div class="button-indicator" id="button-b-indicator">Botão B</div>
+    </div>
+    
+    <div class="status" id="status">Aguardando direção...</div>
+
+    <!-- Socket.IO Client -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        // Mapeamento de elementos
+        const directions = {
+            'Norte': document.getElementById('north'),
+            'Sul': document.getElementById('south'),
+            'Leste': document.getElementById('east'),
+            'Oeste': document.getElementById('west'),
+            'Nordeste': document.getElementById('northeast'),
+            'Noroeste': document.getElementById('northwest'),
+            'Sudeste': document.getElementById('southeast'),
+            'Sudoeste': document.getElementById('southwest'),
+            'Centro': null
+        };
+
+        // Elementos dos botões
+        const buttonA = document.getElementById('button-a-indicator');
+        const buttonB = document.getElementById('button-b-indicator');
+
+        // Conecta ao servidor Socket.IO
+        const socket = io('http://' + window.location.hostname + ':5000');
+        
+        // Atualiza a rosa dos ventos quando recebe nova direção
+        socket.on('nova_direcao', (direction) => {
+            // Remove todas as classes active
+            Object.values(directions).forEach(el => {
+                if(el) el.classList.remove('active');
+            });
+            buttonA.classList.remove('active');
+            buttonB.classList.remove('active');
+            
+            // Ativa a direção recebida
+            if (directions[direction]) {
+                directions[direction].classList.add('active');
+                document.getElementById('status').textContent = `Direção: ${direction}`;
+            } else if (direction === 'Centro') {
+                document.getElementById('status').textContent = 'Posição central';
+            } else if (direction === 'BUTTON_A') {
+                buttonA.classList.add('active');
+                document.getElementById('status').textContent = 'Botão A pressionado';
+            } else if (direction === 'BUTTON_B') {
+                buttonB.classList.add('active');
+                document.getElementById('status').textContent = 'Botão B pressionado';
+            }
+        });
+
+        // Envia mensagem quando clica em uma direção (opcional)
+        Object.entries(directions).forEach(([name, element]) => {
+            if(element) element.addEventListener('click', () => {
+                socket.emit('direcao_selecionada', name);
+            });
+        });
+
+        // Tratamento de erros
+        socket.on('connect_error', (error) => {
+            console.error('Erro de conexão:', error);
+            document.getElementById('status').textContent = 'Erro de conexão com o servidor';
+        });
+    </script>
+</body>
+</html>
