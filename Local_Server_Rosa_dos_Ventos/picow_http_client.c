@@ -11,7 +11,7 @@
 #include "example_http_client_util.h"
 #include "hardware/adc.h"
 #include "hardware/pwm.h"
-//Antonio esteve aqui
+
 // Configurações de rede
 #define HOST "192.168.XX.XXX"
 #define PORT 5000
@@ -128,7 +128,7 @@ void ler_eixos_joystick(uint16_t *x, uint16_t *y) {
 }
 
 void calibrar_joystick(uint16_t *min_x, uint16_t *max_x, uint16_t *min_y, uint16_t *max_y) {
-    sleep_ms(2000); // Tempo para ler a mensagem no serial monitor
+    sleep_ms(3000); // Tempo para ler a mensagem no serial monitor
 
     printf("Calibrando joystick... Mova o eixo em todas as direções durante 4 segundos\n");
     
