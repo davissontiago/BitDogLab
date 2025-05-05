@@ -20,7 +20,7 @@
 
 // Definições de pinos
 #define BUTTON_A 5
-#define BUTTON_B 6
+#define SENSOR_INFRA 3
 #define LED_AZUL 12
 #define LED_VERDE 11
 #define LED_VERMELHO 13
@@ -61,7 +61,7 @@ typedef struct {
 
 const Botao botoes[] = {
     {BUTTON_A, "BUTTON_A"},
-    {BUTTON_B, "BUTTON_B"}
+    {SENSOR_INFRA, "SENSOR_INFRA"}
 };
 
 void configurar_joystick() {
@@ -129,7 +129,7 @@ void ler_eixos_joystick(uint16_t *x, uint16_t *y) {
 
 void calibrar_joystick(uint16_t *min_x, uint16_t *max_x, uint16_t *min_y, uint16_t *max_y) {
     sleep_ms(3000); // Tempo para ler a mensagem no serial monitor
-
+    gpio_put(LED_VERDE,1); // Acende LED verde durante calibração
     printf("Calibrando joystick... Mova o eixo em todas as direções durante 4 segundos\n");
     
     uint32_t inicio = to_ms_since_boot(get_absolute_time());
@@ -148,7 +148,7 @@ void calibrar_joystick(uint16_t *min_x, uint16_t *max_x, uint16_t *min_y, uint16
     printf("Calibração finalizada:\n");
     printf("X: min=%d, max=%d\n", *min_x, *max_x);
     printf("Y: min=%d, max=%d\n", *min_y, *max_y);
-
+    gpio_put(LED_VERDE,0); // Desliga LED verde após calibração
     sleep_ms(2000); // Tempo para ler a calibração
 }
 
@@ -229,8 +229,8 @@ int main() {
     printf("\nIniciando cliente HTTP aprimorado...\n");
 
     // Inicialização do hardware
-    configurar_joystick();
     configurar_leds();
+    configurar_joystick();
     configurar_botoes();
     inicializar_pwm();
 
