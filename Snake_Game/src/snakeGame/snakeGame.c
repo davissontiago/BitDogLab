@@ -8,14 +8,14 @@
 #include "hardware/adc.h"
 #include "hardware/i2c.h"
 #include "hardware/pwm.h"
-#include "./inc/constants.h"
-#include "./inc/canvas.h"
-#include "./inc/snake.h"
-#include "./inc/food.h"
-#include "./inc/utils.h"
-#include "./inc/joystick.h"
-#include "./inc/melody.h"
-#include "./inc/neopixel.h"
+#include "./inc/snakeGame/constants.h"
+#include "./inc/snakeGame/canvas.h"
+#include "./inc/snakeGame/snake.h"
+#include "./inc/snakeGame/food.h"
+#include "./inc/snakeGame/utils.h"
+#include "./inc/snakeGame/joystick.h"
+#include "./inc/snakeGame/melody.h"
+#include "./inc/snakeGame/neopixel.h"
 #include "./inc/display_oled/ssd1306.h"
 
 const uint I2C_SDA = 14;
@@ -77,6 +77,14 @@ void pwm_init_buzzer(uint pin) {
 }
 
 int game_loop() {
+    char *menu_snake_game[] = {
+        "Menu",
+        "",
+        "Jogo Cobrinha",
+        "Joystick < >",
+        "B Selecionar"
+    };
+
     char *controls_text_in_game[] = {
         "Controles",
         "",
@@ -230,7 +238,7 @@ int game_loop() {
     return next_action;
 }
 
-int main() {
+void start_snake_game() {
     stdio_init_all();
 
     // inicia joystick

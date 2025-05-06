@@ -42,7 +42,7 @@ set(PICO_BOARD pico CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(game C CXX ASM)
+project(main C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
@@ -50,31 +50,33 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(
-    game
-    game.c
-    src/food.c
-    src/canvas.c
-    src/joystick.c
-    src/matrix.c
-    src/melody.c
-    src/neopixel.c
-    src/snake.c
-    src/utils.c
+    main
+    main.c
+    src/snakeGame/food.c
+    src/snakeGame/canvas.c
+    src/snakeGame/joystick.c
+    src/snakeGame/matrix.c
+    src/snakeGame/melody.c
+    src/snakeGame/neopixel.c
+    src/snakeGame/snake.c
+    src/snakeGame/utils.c
+    src/snakeGame/snakeGame.c
+    src/menu.c
     src/display_oled/ssd1306_i2c.c
 )
 
-pico_set_program_name(game "game")
-pico_set_program_version(game "0.1")
+pico_set_program_name(main "main")
+pico_set_program_version(main "0.1")
 
 # Generate PIO header
-pico_generate_pio_header(game ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
+pico_generate_pio_header(main ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(game 0)
-pico_enable_stdio_usb(game 1)
+pico_enable_stdio_uart(main 0)
+pico_enable_stdio_usb(main 1)
 
 # Add the standard library to the build
-target_link_libraries(game
+target_link_libraries(main
         hardware_adc
         pico_stdlib
         hardware_pio
@@ -83,12 +85,15 @@ target_link_libraries(game
         hardware_i2c)
 
 # Add the standard include files to the build
-target_include_directories(game PUBLIC
+target_include_directories(main PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/src
   ${CMAKE_CURRENT_LIST_DIR}/src/display_oled
+  ${CMAKE_CURRENT_LIST_DIR}/src/snakeGame
   ${CMAKE_CURRENT_LIST_DIR}/inc
+  ${CMAKE_CURRENT_LIST_DIR}/inc/display_oled
+  ${CMAKE_CURRENT_LIST_DIR}/inc/snakeGame
 )
 
-pico_add_extra_outputs(game)
+pico_add_extra_outputs(main)
 

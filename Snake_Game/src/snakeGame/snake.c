@@ -2,10 +2,10 @@
 #include <malloc.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "../inc/utils.h"
-#include "../inc/snake.h"
-#include "../inc/constants.h"
-#include "../inc/canvas.h"
+#include "../inc/snakeGame/utils.h"
+#include "../inc/snakeGame/snake.h"
+#include "../inc/snakeGame/constants.h"
+#include "../inc/snakeGame/canvas.h"
 
 // =================================================================================
 // SNAKE

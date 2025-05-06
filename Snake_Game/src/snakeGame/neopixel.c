@@ -2,7 +2,7 @@
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
 #include "hardware/clocks.h"
-#include "../inc/neopixel.h"
+#include "../inc/snakeGame/neopixel.h"
 
 // =================================================================================
 // NEOPIXEL

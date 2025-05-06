@@ -1,6 +1,6 @@
 #include <malloc.h>
-#include "../inc/matrix.h"
-#include "../inc/utils.h"
+#include "../inc/snakeGame/matrix.h"
+#include "../inc/snakeGame/utils.h"
 
 // ===========================================================================
 // MATRIX

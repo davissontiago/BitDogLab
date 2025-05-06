@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <constants.h>
-#include "../inc/types.h"
+#include "../inc/snakeGame/types.h"
 #include "pico/time.h"
 
 // =============================================================

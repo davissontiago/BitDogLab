@@ -2,8 +2,8 @@
 #include "pico/stdlib.h"
 #include "hardware/adc.h"
 #include "math.h"
-#include "../inc/joystick.h"
-#include "../inc/constants.h"
+#include "../inc/snakeGame/joystick.h"
+#include "../inc/snakeGame/constants.h"
 
 // ===========================================================================
 // JOYSTICK

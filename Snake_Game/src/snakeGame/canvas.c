@@ -2,11 +2,11 @@
 #include <stdbool.h>
 #include <malloc.h>
 #include <stdlib.h>
-#include "../inc/types.h"
-#include "../inc/utils.h"
-#include "../inc/constants.h"
-#include "../inc/matrix.h"
-#include "../inc/neopixel.h"
+#include "../inc/snakeGame/types.h"
+#include "../inc/snakeGame/utils.h"
+#include "../inc/snakeGame/constants.h"
+#include "../inc/snakeGame/matrix.h"
+#include "../inc/snakeGame/neopixel.h"
 
 // ==========================================================================
 // CANVAS
