@@ -1,5 +1,4 @@
 # Generated Cmake Pico project file
-
 cmake_minimum_required(VERSION 3.13)
 
 set(CMAKE_C_STANDARD 11)
@@ -50,8 +49,8 @@ target_include_directories(example_lwip_http_util INTERFACE
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(picow_http_client picow_http_client.c )
-set(WIFI_SSID "dssnthx")
-set(WIFI_PASSWORD "d32128662")
+set(WIFI_SSID "REDE")
+set(WIFI_PASSWORD "SENHA")
 target_compile_definitions(picow_http_client PRIVATE
         WIFI_SSID=\"${WIFI_SSID}\"
         WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
@@ -117,4 +116,3 @@ set_source_files_properties(
         PROPERTIES
         COMPILE_OPTIONS "-Wno-unused-result"
         )
-

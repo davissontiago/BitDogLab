@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  /* Melhora a renderização de fontes */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+canvas {
+  display: block;
+  background: #000;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  /* Otimizações de renderização */
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  /* Melhora performance */
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.point-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 72px;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease-out; /* Transição mais rápida */
+  pointer-events: none;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  /* Melhora performance */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  color: white; /* cor padrão */
+}
+
+.point-message.player1 {
+  color: #FF6666 !important;
+  text-shadow: 0 0 15px rgba(255, 102, 102, 0.5) !important;
+}
+
+.point-message.player2 {
+  color: #6666FF !important;
+  text-shadow: 0 0 15px rgba(102, 102, 255, 0.5) !important;
+}
+
+/* ... (restante do CSS permanece igual) */
+
+@keyframes pulse {
+  0% { 
+      transform: translate(-50%, -50%) scale(1);
+      text-shadow: 0 0 10px currentColor;
+  }
+  50% { 
+      transform: translate(-50%, -50%) scale(1.1);
+      text-shadow: 0 0 20px currentColor;
+  }
+  100% { 
+      transform: translate(-50%, -50%) scale(1);
+      text-shadow: 0 0 10px currentColor;
+  }
+}
+
+.point-message.visible {
+  opacity: 1;
+  /* Habilita aceleração por hardware */
+  transform: translate3d(-50%, -50%, 0);
+}
