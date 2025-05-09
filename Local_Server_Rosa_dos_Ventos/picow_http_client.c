@@ -1,3 +1,4 @@
+// ======== BIBLIOTECAS ===========
 #include <stdio.h>
 #include <string.h>
 #include "pico/stdio.h"
@@ -33,10 +34,17 @@ typedef struct {
 } CorDirecao;
 
 const CorDirecao cores_direcoes[] = {
-    {255, 0, 0, "Norte"}, {0, 255, 0, "Sul"}, {0, 0, 255, "Leste"},
-    {255, 255, 0, "Oeste"}, {255, 0, 255, "Nordeste"}, {255, 128, 0, "Noroeste"},
-    {0, 255, 255, "Sudeste"}, {128, 0, 255, "Sudoeste"}, {0, 0, 0, "Centro"}
+    {255, 0, 0,    "Norte"},      // Vermelho
+    {0, 255, 0,    "Sul"},        // Verde
+    {0, 0, 255,    "Leste"},      // Azul
+    {255, 255, 0,  "Oeste"},      // Amarelo
+    {255, 0, 255,  "Nordeste"},   // Magenta
+    {255, 128, 0,  "Noroeste"},   // Laranja
+    {0, 255, 255,  "Sudeste"},    // Ciano
+    {128, 0, 255,  "Sudoeste"},   // Roxo
+    {0, 0, 0,      "Centro"}      // Desligado
 };
+
 
 // Estrutura para mapear botões a mensagens
 typedef struct {
@@ -63,9 +71,12 @@ void configurar_joystick() {
 
 // Inicializa LEDs RGB como GPIO de saída
 void configurar_leds() {
-    gpio_init(LED_AZUL); gpio_set_dir(LED_AZUL, GPIO_OUT);
-    gpio_init(LED_VERDE); gpio_set_dir(LED_VERDE, GPIO_OUT);
-    gpio_init(LED_VERMELHO); gpio_set_dir(LED_VERMELHO, GPIO_OUT);
+    gpio_init(LED_AZUL); 
+    gpio_set_dir(LED_AZUL, GPIO_OUT);
+    gpio_init(LED_VERDE); 
+    gpio_set_dir(LED_VERDE, GPIO_OUT);
+    gpio_init(LED_VERMELHO); 
+    gpio_set_dir(LED_VERMELHO, GPIO_OUT);
 }
 
 // Inicializa botões como entrada com pull-up
