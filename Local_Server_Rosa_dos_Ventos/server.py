@@ -3,7 +3,7 @@ from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, cors_allowed_origins="*")  # Permite todas as origens
+socketio = SocketIO(app, cors_allowed_origins="*") 
 
 @app.route('/')
 def index():
@@ -14,7 +14,6 @@ def receber_mensagem():
     msg = request.args.get('msg')
     if msg:
         print("Mensagem recebida:", msg)
-        # Modificação aqui - removido o broadcast=True
         socketio.emit('nova_direcao', msg, namespace='/')
     return "OK"
 
