@@ -10,7 +10,7 @@
 #include "hardware/pwm.h"
 
 // ======== DEFINIÇÕES ===========
-#define HOST "192.168.XX.XXX"
+#define HOST "192.168.18.7"
 #define PORT 5000
 #define INTERVALO_MS 50
 #define TIMEOUT_CONEXAO 30000

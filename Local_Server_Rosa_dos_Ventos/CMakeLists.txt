@@ -64,8 +64,8 @@ target_include_directories(example_lwip_http_util INTERFACE
 add_executable(picow_http_client picow_http_client.c)
 
 # Credenciais Wi-Fi (substitua com suas credenciais)
-set(WIFI_SSID "REDE")
-set(WIFI_PASSWORD "SENHA")
+set(WIFI_SSID "PM-TOTUSTUUS")
+set(WIFI_PASSWORD "MR15saTOTUS06")
 target_compile_definitions(picow_http_client PRIVATE
     WIFI_SSID=\"${WIFI_SSID}\"
     WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
